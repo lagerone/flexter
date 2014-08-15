@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Flexter</title>
+        <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Inconsolata' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                padding-bottom: 150px;
+                font-family: 'Inconsolata', Monaco, courier, monospace;
+            }
+
+            header {
+                background-color: #111;
+                color: #f2f2f2;
+            }
+
+            .content-wrapper { max-width: 500px; }
+
+            .head-wrapper,
+            .action-wrapper,
+            .balance-wrapper { margin-bottom: 20px; }
+
+            .day-nav {
+                padding-top: 20px;
+                font-size: 30px;
+                cursor: pointer;
+            }
+
+            .pointer { cursor: pointer; }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <div class="container-fluid content-wrapper">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        Flexter
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="app" class="container-fluid content-wrapper" data-bind="with: day">
+
+            <div class="row head-wrapper">
+                <div class="col-xs-2 day-nav" data-bind="click: $parent.getPrevDay.bind($parent)" title="Previous day">
+                    <i class="fa fa-angle-left"></i>
+                </div>
+                <div class="col-xs-8 text-center">
+                    <h1>
+                        <span class="pointer" data-bind="click: $parent.getToday.bind($parent)" title="Go to current day">
+                            <span data-bind="text: dayOfWeek"></span>
+                            <span data-bind="text: currentTime"></span>
+                        </span>
+                    </h1>
+                    <div data-bind="text: formattedDate"></div>
+                </div>
+                <div class="col-xs-2 day-nav text-right" data-bind="click: $parent.getNextDay.bind($parent)" title="Next day">
+                    <i class="fa fa-angle-right"></i>
+                </div>
+            </div>
+
+            <div class="row balance-wrapper">
+                <div class="col-xs-12 text-center">
+                    <p>
+                        <strong>Flex balance</strong>
+                    </p>
+                    <p>
+                        This day: <span data-bind="text: balance.text"></span>
+                        Total: <span data-bind="text: $parent.totalBalance"></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row action-wrapper">
+                <div class="col-xs-6">
+                    <button class="btn btn-default btn-block" data-bind="click: startOrEndDay, text: startOrEndDayText, disable: !canEndDay()"></button>
+                </div>
+                <div class="col-xs-6">
+                    <button class="btn btn-primary btn-block" data-bind="click: startOrEndBreak, text: startOrEndBreakText, disable: !canHaveBreak()"></button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Day start</label>
+                        <input type="text" data-bind="value: start" class="form-control" placeholder="Day start">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>
+                            Day end
+                            <span data-bind="visible: breakEvenText().length" title="End to break even">
+                                (<i class="fa fa-thumbs-o-up"></i>
+                                <span data-bind="text: breakEvenText"></span>)
+                            </span>
+                        </label>
+                        <input type="text" data-bind="value: end" class="form-control" placeholder="Day end">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Break start</label>
+                        <input type="text" data-bind="value: breakTime.start" class="form-control" placeholder="Break start">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Break end</label>
+                        <input type="text" data-bind="value: breakTime.end" class="form-control" placeholder="Break end">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary btn-block" data-bind="click: save">Save</button>
+                </div>
+            </div>
+
+        </main><!-- /.container-fluid -->
+
+        <script src="assets/knockout/dist/knockout.js"></script>
+        <script src="assets/moment/moment.js"></script>
+        <script src="assets/underscore/underscore.js"></script>
+        <script src="app/config.js"></script>
+        <script src="app/HighResolutionTimer.js"></script>
+        <script src="app/LocalStore.js"></script>
+        <script src="app/datacontext.js"></script>
+        <script src="app/Day.js"></script>
+        <script src="app/ViewModel.js"></script>
+        <script src="app/main.js"></script>
+    </body>
+</html>
