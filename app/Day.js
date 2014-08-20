@@ -81,12 +81,13 @@ flexterNS.Day = (function (_, ko, config, HighResolutionTimer, datacontext) {
                 this.balance.minutes = 0;
                 return 'unknown';
             }
-            var break_mins = this._getBreakMinutes();
-            var workedMinutes = moment(this.end(), config.formats.shortTime).diff(moment(this.start(), config.formats.shortTime), 'minutes') - break_mins;
-            var minutes = workedMinutes % 60;
-            this.balance.minutes = workedMinutes - 480;
-            var hours = (workedMinutes > minutes && this.balance.minutes > 60) ? ((workedMinutes - minutes) / 60) : 0;
-            return datacontext.getBalanceText((this.balance.minutes < 0), Math.abs(hours), Math.abs(this.balance.minutes));
+            var worked_minutes = moment(this.end(), config.formats.shortTime).diff(moment(this.start(), config.formats.shortTime), 'minutes') - this._getBreakMinutes();
+            this.balance.minutes = worked_minutes - 480;
+            var minutes = this.balance.minutes % 60;
+            var hours = (this.balance.minutes - minutes) / 60;
+            console.log('worked_minutes', worked_minutes);
+            console.log('balance', this.balance.minutes);
+            return datacontext.getBalanceText((this.balance.minutes < 0), Math.abs(hours), Math.abs(minutes));
         },
         startOrEndDay: function () {
             var time = this._getShortTime(this.currentTime());
