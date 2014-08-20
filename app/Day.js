@@ -85,8 +85,6 @@ flexterNS.Day = (function (_, ko, config, HighResolutionTimer, datacontext) {
             this.balance.minutes = worked_minutes - 480;
             var minutes = this.balance.minutes % 60;
             var hours = (this.balance.minutes - minutes) / 60;
-            console.log('worked_minutes', worked_minutes);
-            console.log('balance', this.balance.minutes);
             return datacontext.getBalanceText((this.balance.minutes < 0), Math.abs(hours), Math.abs(minutes));
         },
         startOrEndDay: function () {
